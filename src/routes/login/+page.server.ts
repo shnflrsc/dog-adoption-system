@@ -1,48 +1,46 @@
-import type { Actions } from './$types';
-import { validateUsername, validatePassword } from '$lib/server/utils/validationUtils';
+import type { Actions, PageServerLoad } from './$types';
+import { validateEmail, validatePassword } from '$lib/server/utils/validationUtils';
 import { db } from '$lib/server/db';
 import * as table from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
-import { verify } from '@node-rs/argon2';
-import * as auth from '$lib/server/auth';
 import { redirect } from '@sveltejs/kit';
+import { supabase } from '$lib/server/db/supabase';
+
+export const load: PageServerLoad = async () => {
+	const { data } = await supabase.auth.getUser();
+	if (data.user) {
+		throw redirect(302, '/account');
+	}
+};
 
 export const actions: Actions = {
 	login: async (event) => {
 		const formData = await event.request.formData();
-		const username = formData.get('username');
+		const email = formData.get('email');
 		const password = formData.get('password');
 
-		if (!validateUsername(username) || !validatePassword(password)) {
-			return { success: false, message: 'Incorrect username or password' };
+		if (!validateEmail(email) || !validatePassword(password)) {
+			return { success: false, message: 'Incorrect email or password' };
 		}
 
 		const users = await db
 			.select()
-			.from(table.user)
-			.where(eq(table.user.username, username))
+			.from(table.profile)
+			.where(eq(table.profile.email, email))
 			.limit(1);
 
 		if (users.length === 0) {
-			return { success: false, message: 'Incorrect username or password' };
+			return { success: false, message: 'Incorrect email or password' };
 		}
 
-		const user = users[0];
-
-		const validPassword = await verify(user.passwordHash, password, {
-			memoryCost: 19456,
-			timeCost: 2,
-			outputLen: 32,
-			parallelism: 1
+		const { data, error } = await supabase.auth.signInWithPassword({
+			email,
+			password
 		});
 
-		if (!validPassword) {
-			return { success: false, message: 'Incorrect username or password' };
+		if (error || !data.user) {
+			return { success: false, message: 'Incorrect email or password' };
 		}
-
-		const sessionToken = auth.generateSessionToken();
-		const session = await auth.createSession(sessionToken, user.id);
-		auth.setSessionTokenCookie(event, sessionToken, session.expiresAt);
 
 		return redirect(302, '/account');
 	}

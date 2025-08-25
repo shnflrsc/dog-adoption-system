@@ -5,15 +5,19 @@
 	let { form }: { form: ActionData } = $props();
 </script>
 
+<svelte:head>
+	<title>Login</title>
+</svelte:head>
+
 <main class="m-4">
-	<form class="flex flex-col gap-y-4" method="POST" action="?/login" use:enhance>
+	<form class="flex flex-col gap-y-4 md:w-1/3" method="POST" action="?/login" use:enhance>
 		<h1 class="text-xl font-bold">Login</h1>
-		<label for="username">Username</label>
+		<label for="email">Email</label>
 		<input
 			class="p-2 text-black rounded-lg bg-neutral-200 focus:outline-none"
 			type="text"
-			id="username"
-			name="username"
+			id="email"
+			name="email"
 			required
 		/>
 		<label for="password">Password</label>
@@ -34,6 +38,6 @@
 		/>
 	</form>
 	<article class="absolute -translate-x-1/2 left-1/2 bottom-8">
-		<h1>No account yet? <a class="text-blue-400" href="/register">Register</a></h1>
+		<nav>No account yet? <a class="text-blue-400" href="/register">Register</a></nav>
 	</article>
 </main>

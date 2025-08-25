@@ -43,12 +43,14 @@
 	},
 	"dependencies": {
 		"@lucide/svelte": "^0.541.0",
-		"@node-rs/argon2": "^2.0.2",
 		"@oslojs/crypto": "^1.0.1",
 		"@oslojs/encoding": "^1.1.0",
+		"@supabase/supabase-js": "^2.56.0",
 		"better-sqlite3": "^11.8.0",
 		"drizzle-orm": "^0.40.0",
 		"nanoid": "^5.1.5",
+		"postgres": "^3.4.7",
+		"sharp": "^0.34.3",
 		"uuid": "^11.1.0"
 	}
 }

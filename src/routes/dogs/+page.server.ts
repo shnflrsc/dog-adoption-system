@@ -10,6 +10,6 @@ export const load: PageServerLoad = async ({ fetch }) => {
 	const data = await res.json();
 
 	return {
-		dogs: data.message
+		dogs: data
 	};
 };

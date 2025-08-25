@@ -4,8 +4,8 @@ import { error, json } from '@sveltejs/kit';
 
 export async function GET() {
 	const dogs: table.Dog[] = await db.select().from(table.dog);
-	if (dogs.length === 0) {
-		return error(404, { message: 'No dogs found' });
+	if (!dogs) {
+		return error(404, { message: 'Error fetching dogs' });
 	}
 	return json(dogs);
 }

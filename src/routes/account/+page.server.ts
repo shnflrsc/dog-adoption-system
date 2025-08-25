@@ -1,17 +1,17 @@
-import { getRequestEvent } from '$app/server';
 import { redirect } from '@sveltejs/kit';
-import type { PageServerLoad } from './$types';
+import type { Actions, PageServerLoad } from './$types';
+import { supabase } from '$lib/server/db/supabase';
 
 export const load: PageServerLoad = async () => {
-	const user = requireLogin();
-	return { user };
-};
-
-function requireLogin() {
-	const { locals } = getRequestEvent();
-	if (!locals.user) {
+	const { data } = await supabase.auth.getUser();
+	if (!data.user) {
 		throw redirect(302, '/login');
 	}
+};
 
-	return locals.user;
-}
+export const actions: Actions = {
+	logout: async () => {
+		await supabase.auth.signOut();
+		return redirect(302, '/login');
+	}
+};

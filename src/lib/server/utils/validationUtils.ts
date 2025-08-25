@@ -1,8 +1,17 @@
+export function validateEmail(email: unknown): email is string {
+	return (
+		typeof email === 'string' &&
+		email.length >= 6 &&
+		email.length <= 100 &&
+		/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)
+	);
+}
+
 export function validateUsername(username: unknown): username is string {
 	return (
 		typeof username === 'string' &&
-		username.length >= 6 &&
-		username.length <= 20 &&
+		username.length >= 3 &&
+		username.length <= 50 &&
 		/^[a-zA-Z0-9_-]+$/.test(username)
 	);
 }
