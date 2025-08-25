@@ -5,6 +5,7 @@
 - [x] API endpoints implementation
 - [x] SvelteKit load functions and actions
 - [x] Form submission with data validation
+- [x] Image upload conversion to webp
 - [x] Mobile-friendly responsive design
 - [ ] Dark mode implementation with theme toggle
 - [ ] Security implementation (CORS, rate limiting)
