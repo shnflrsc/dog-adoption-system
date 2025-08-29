@@ -2,6 +2,7 @@
 	import '../app.css';
 	import favicon from '$lib/assets/favicon.svg';
 	import Header from '$lib/components/Header.svelte';
+	import MobileSideMenu from '$lib/components/MobileSideMenu.svelte';
 
 	let { children } = $props();
 </script>
@@ -11,5 +12,5 @@
 </svelte:head>
 
 <Header />
-
+<MobileSideMenu />
 {@render children?.()}
