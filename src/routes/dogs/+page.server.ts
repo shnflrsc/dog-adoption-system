@@ -1,3 +1,4 @@
+import type { Dog } from '$lib/server/db/schema';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ fetch }) => {
@@ -7,7 +8,7 @@ export const load: PageServerLoad = async ({ fetch }) => {
 		throw new Error('Failed to fetch dogs');
 	}
 
-	const data = await res.json();
+	const data: Dog[] = await res.json();
 
 	return {
 		dogs: data
