@@ -7,7 +7,8 @@
 	<title>{dog.name}</title>
 </svelte:head>
 
-<main class="m-4">
+<main class="m-4 flex flex-col gap-y-8">
+	<a class="font-bold text-4xl" href="/dogs">←</a>
 	<article class="flex flex-col md:flex-row justify-center">
 		<picture>
 			<img
